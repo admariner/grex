@@ -14,7 +14,7 @@
 
 [package]
 name = "grex"
-version = "1.4.0-SNAPSHOT"
+version = "1.4.0"
 authors = ["Peter M. Stahl <pemistahl@gmail.com>"]
 description = """
 grex generates regular expressions from user-provided test cases.
@@ -24,30 +24,41 @@ repository = "https://github.com/pemistahl/grex"
 documentation = "https://docs.rs/grex"
 license = "Apache-2.0"
 readme = "README.md"
-edition = "2018"
+edition = "2021"
 categories = ["command-line-utilities", "parsing"]
 keywords = ["pattern", "regex", "regexp"]
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
 atty = { version = "0.2.14", optional = true }
-clap = { version = "3.2", features = ["derive", "wrap_help"], optional = true }
+clap = { version = "3.2.21", features = ["derive", "wrap_help"], optional = true }
 itertools = "0.10.3"
 lazy_static = "1.4.0"
-ndarray = "0.15.4"
+ndarray = "0.15.6"
 petgraph = {version = "0.6.2", default-features = false, features = ["stable_graph"]}
-regex = "1.5.6"
+regex = "1.6.0"
 unic-char-range = "0.9.0"
 unic-ucd-category = "0.9.0"
 unicode-segmentation = "1.9.0"
 
+[target.'cfg(target_family = "wasm")'.dependencies]
+wasm-bindgen = "0.2.81"
+
 [dev-dependencies]
+indoc = "1.0.7"
+rstest = "0.15.0"
+
+[target.'cfg(not(target_family = "wasm"))'.dev-dependencies]
 assert_cmd = "2.0.4"
-criterion = "0.3.5"
-indoc = "1.0.6"
+criterion = "0.3.6"
 predicates = "2.1.1"
 proptest = "1.0.0"
-rstest = "0.13.0"
 tempfile = "3.3.0"
+
+[target.'cfg(target_family = "wasm")'.dev-dependencies]
+wasm-bindgen-test = "0.3.31"
 
 [features]
 default = ["cli"]
